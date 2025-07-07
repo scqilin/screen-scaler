@@ -88,8 +88,6 @@
         width: 100%;
         height: 60vh;
         background: #2c3e50;
-        border: 2px solid #34495e;
-        border-radius: 8px;
         position: relative;
         overflow: auto;
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
@@ -107,6 +105,57 @@
         color: white;
         font-size: 48px;
         text-align: center;
+      }
+
+      /* 四角拐角定位点 */
+      .demo-content::before,
+      .demo-content::after {
+        content: '';
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        border: 2px solid rgba(255, 255, 255, 0.6);
+        z-index: 10;
+      }
+
+      /* 左上角 */
+      .demo-content::before {
+        top: 15px;
+        left: 15px;
+        border-right: none;
+        border-bottom: none;
+      }
+
+      /* 右下角 */
+      .demo-content::after {
+        bottom: 15px;
+        right: 15px;
+        border-left: none;
+        border-top: none;
+      }
+
+      /* 右上角和左下角定位点 */
+      .corner-tr,
+      .corner-bl {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        border: 2px solid rgba(255, 255, 255, 0.6);
+        z-index: 10;
+      }
+
+      .corner-tr {
+        top: 15px;
+        right: 15px;
+        border-left: none;
+        border-bottom: none;
+      }
+
+      .corner-bl {
+        bottom: 15px;
+        left: 15px;
+        border-right: none;
+        border-top: none;
       }
 
       .demo-grid {
@@ -369,10 +418,15 @@
           <div class="control-group">
             <label>设计尺寸:</label>
             <select id="sizeSelect">
-              <option value="1920,1080">1920x1080</option>
-              <option value="1600,900">1600x900</option>
-              <option value="1366,768">1366x768</option>
-              <option value="1280,720">1280x720</option>
+              <option value="1920,1080">1920x1080 (标准16:9)</option>
+              <option value="2560,1440">2560x1440 (2K 16:9)</option>
+              <option value="3840,2160">3840x2160 (4K 16:9)</option>
+              <option value="3440,1440">3440x1440 (21:9 超宽屏)</option>
+              <option value="5120,1440">5120x1440 (32:9 超宽屏)</option>
+              <option value="1080,1920">1080x1920 (9:16 竖屏)</option>
+              <option value="800,2400">800x2400 (1:3 极窄屏)</option>
+              <option value="600,1600">600x1600 (3:8 高窄屏)</option>
+              <option value="1366,768">1366x768 (笔记本)</option>
             </select>
           </div>
 
@@ -386,6 +440,9 @@
           <div class="demo-screen" id="demoScreen">
             <div class="demo-content" id="demoContent">
               <div class="demo-grid"></div>
+              <!-- 四角定位点 -->
+              <div class="corner-tr"></div>
+              <div class="corner-bl"></div>
               <h2>🖥️ 大屏展示内容</h2>
               <p>设计尺寸: 1920x1080</p>
               <p>当前模式: auto</p>
@@ -485,11 +542,22 @@ const scaler = new ScreenScaler({
 
       // 添加一些交互提示
       document.addEventListener("DOMContentLoaded", function () {
+        // 添加选择框变化事件监听
+        const modeSelect = document.getElementById("modeSelect");
+        const sizeSelect = document.getElementById("sizeSelect");
+        
+        modeSelect.addEventListener("change", function() {
+          updateConfig();
+        });
+        
+        sizeSelect.addEventListener("change", function() {
+          updateConfig();
+        });
+        
         // 添加键盘快捷键
         document.addEventListener("keydown", function (e) {
           if (e.key >= "1" && e.key <= "5") {
             const modes = ["auto", "width", "height", "stretch", "none"];
-            const modeSelect = document.getElementById("modeSelect");
             modeSelect.value = modes[parseInt(e.key) - 1];
             updateConfig();
           }

@@ -33,9 +33,16 @@ export interface ScaleInfo {
 
 /**
  * 配置接口
+ * 
+ * @warning 容器样式注意事项
+ * 容器元素的 border、padding 等样式会影响尺寸计算，可能导致缩放计算错误。
+ * 建议保持容器样式简洁，或使用 box-sizing: border-box。
  */
 export interface ScreenScalerConfig {
-  /** 容器元素或选择器 */
+  /** 
+   * 容器元素或选择器
+   * @warning 避免在容器上使用 border、padding 等影响尺寸计算的样式
+   */
   container: HTMLElement | string;
   /** 设计稿宽度 */
   designWidth: number;

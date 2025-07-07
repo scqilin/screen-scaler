@@ -223,18 +223,6 @@ export class ScreenScaler {
   }
 
   /**
-   * 获取滚动条宽度
-   * @param element 要计算的元素
-   * @returns 滚动条宽度
-   */
-  private getScrollbarSize(element: HTMLElement) {
-    return {
-      vertical: element.offsetWidth - element.clientWidth,
-      horizontal: element.offsetHeight - element.clientHeight,
-    };
-  }
-
-  /**
    * 默认模式 - 不做任何缩放处理
    */
   private scaleNone(): ScaleInfo {
@@ -263,6 +251,7 @@ export class ScreenScaler {
 
     // 先重置所有样式
     this.resetStyles();
+    this.wrapperContainer.style.overflow = 'hidden';
 
     const scaleX = screen.width / designWidth;
     const scaleY = screen.height / designHeight;
@@ -300,7 +289,7 @@ export class ScreenScaler {
 
     // 先重置所有样式
     this.resetStyles();
-
+    
     // 获取包裹容器的可用尺寸
     const screen = this.getScreenSize();
     let _w = screen.width;
@@ -314,7 +303,7 @@ export class ScreenScaler {
 
     // 应用缩放
     this.container.style.transform = `scale(${scale})`;
-
+    this.wrapperContainer.style.overflowX = 'clip';
     const offsetX = 0;
     let offsetY = 0;
     // 智能居中和滚动处理
@@ -353,6 +342,7 @@ export class ScreenScaler {
 
     // 先重置所有样式
     this.resetStyles();
+    
 
     // 获取包裹容器的可用尺寸
     const screen = this.getScreenSize();
@@ -368,7 +358,7 @@ export class ScreenScaler {
 
     // 应用缩放
     this.container.style.transform = `scale(${scale})`;
-
+    this.wrapperContainer.style.overflowY = 'clip';
     let offsetX = 0;
     const offsetY = 0;
     // 智能居中和滚动处理
@@ -408,6 +398,7 @@ export class ScreenScaler {
 
     // 先重置所有样式
     this.resetStyles();
+    this.wrapperContainer.style.overflow = 'hidden';
 
     const scaleX = screen.width / designWidth;
     const scaleY = screen.height / designHeight;
@@ -419,9 +410,6 @@ export class ScreenScaler {
       left: '0px',
       top: '0px',
     });
-
-    // 拉伸模式强制隐藏滚动条，确保完全铺满
-    this.wrapperContainer.style.overflow = 'hidden';
 
     return {
       mode: 'stretch',
@@ -442,7 +430,7 @@ export class ScreenScaler {
     }
 
     let scaleInfo: ScaleInfo;
-
+    scrollbarWidth = getScrollbarWidth() + 1;
     switch (this.config.mode) {
       case 'none':
         scaleInfo = this.scaleNone();

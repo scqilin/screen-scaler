@@ -1,6 +1,6 @@
 {
   "name": "@scqilin/screen-scaler",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "A powerful screen scaling adapter for big screen applications with TypeScript support",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",

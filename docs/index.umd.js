@@ -190,17 +190,6 @@
             });
         }
         /**
-         * 获取滚动条宽度
-         * @param element 要计算的元素
-         * @returns 滚动条宽度
-         */
-        getScrollbarSize(element) {
-            return {
-                vertical: element.offsetWidth - element.clientWidth,
-                horizontal: element.offsetHeight - element.clientHeight,
-            };
-        }
-        /**
          * 默认模式 - 不做任何缩放处理
          */
         scaleNone() {
@@ -225,6 +214,7 @@
             const screen = this.getScreenSize();
             // 先重置所有样式
             this.resetStyles();
+            this.wrapperContainer.style.overflow = 'hidden';
             const scaleX = screen.width / designWidth;
             const scaleY = screen.height / designHeight;
             const scale = Math.min(scaleX, scaleY);
@@ -267,6 +257,7 @@
             const scaledHeight = designHeight * scale;
             // 应用缩放
             this.container.style.transform = `scale(${scale})`;
+            this.wrapperContainer.style.overflowX = 'clip';
             const offsetX = 0;
             let offsetY = 0;
             // 智能居中和滚动处理
@@ -315,6 +306,7 @@
             const scaledHeight = designHeight * scale;
             // 应用缩放
             this.container.style.transform = `scale(${scale})`;
+            this.wrapperContainer.style.overflowY = 'clip';
             let offsetX = 0;
             const offsetY = 0;
             // 智能居中和滚动处理
@@ -352,6 +344,7 @@
             const screen = this.getScreenSize();
             // 先重置所有样式
             this.resetStyles();
+            this.wrapperContainer.style.overflow = 'hidden';
             const scaleX = screen.width / designWidth;
             const scaleY = screen.height / designHeight;
             // 应用不同比例的缩放
@@ -361,8 +354,6 @@
                 left: '0px',
                 top: '0px',
             });
-            // 拉伸模式强制隐藏滚动条，确保完全铺满
-            this.wrapperContainer.style.overflow = 'hidden';
             return {
                 mode: 'stretch',
                 scale: { x: scaleX, y: scaleY, ratio: Math.min(scaleX, scaleY) },
@@ -380,6 +371,7 @@
                 throw new Error('ScreenScaler has been destroyed');
             }
             let scaleInfo;
+            scrollbarWidth = getScrollbarWidth() + 1;
             switch (this.config.mode) {
                 case 'none':
                     scaleInfo = this.scaleNone();
@@ -504,4 +496,3 @@
     Object.defineProperty(exports, '__esModule', { value: true });
 
 }));
-//# sourceMappingURL=index.umd.js.map
