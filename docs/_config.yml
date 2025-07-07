@@ -1,0 +1,32 @@
+# GitHub Pages 配置
+title: ScreenScaler
+description: 强大的大屏缩放适配器，专为大屏应用开发设计
+author: scqilin
+url: https://scqilin.github.io/screen-scaler
+baseurl: /screen-scaler
+
+# Jekyll 配置
+markdown: kramdown
+highlighter: rouge
+theme: minima
+
+# 插件
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+
+# 排除文件
+exclude:
+  - node_modules
+  - package.json
+  - package-lock.json
+  - rollup.config.js
+  - tsconfig.json
+  - src
+  - examples
+  - README.md
+  - LICENSE
+
+# 包含文件
+include:
+  - _config.yml
